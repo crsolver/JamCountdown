@@ -1,6 +1,6 @@
 # JamCountdown
 
-JamCountdown is an addon for Godot to the keep track of the time left for a gamejam.
+JamCountdown is an addon for Godot to keep track of the time left for a gamejam.
 
 ![Alt text](screenshots/image3.png?raw=true "Title")
 
