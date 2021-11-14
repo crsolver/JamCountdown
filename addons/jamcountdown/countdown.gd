@@ -36,7 +36,6 @@ func _ready() -> void:
 
 
 func create_timer(wait) -> void:
-	print("creating timer " + str(wait))
 	timer = Timer.new()
 	add_child(timer)
 	timer.connect("timeout", self, "_on_Timer_timeout")
@@ -44,7 +43,6 @@ func create_timer(wait) -> void:
 	timer.set_wait_time(wait)
 	timer.set_one_shot(false)
 	timer.start()
-	print("timer started")
 
 
 func _on_Timer_timeout() -> void:
