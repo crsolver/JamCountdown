@@ -13,6 +13,7 @@ onready var title_label = get_node("HBoxContainer/TitleLabel")
 onready var countdown_label = get_node("HBoxContainer/CountdownLabel")
 
 var jam_end_date: Dictionary
+var jam_date_unix: int
 var time_left_unix: int
 var timer: Timer
 
@@ -56,7 +57,9 @@ func initialize_countdown() -> void:
 
 
 func update_countdown() -> void:
-	time_left_unix -= 1
+	var current_time_unix = OS.get_unix_time_from_datetime(OS.get_datetime())
+	time_left_unix = jam_date_unix - current_time_unix
+	
 	if time_left_unix <= 0:
 		countdown_label.visible = false
 		if timer: timer.queue_free()
