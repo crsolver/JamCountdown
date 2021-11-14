@@ -13,13 +13,14 @@ onready var title_label = get_node("HBoxContainer/TitleLabel")
 onready var countdown_label = get_node("HBoxContainer/CountdownLabel")
 
 var jam_end_date: Dictionary
-var jam_date_unix: int
+var jam_date_unix
 var time_left_unix: int
 var timer: Timer
 
 
 func _ready() -> void:
 	title_label.text = jam_title
+	countdown_label.text = ""
 	countdown_label.visible = true
 	
 	jam_end_date = {
@@ -32,28 +33,37 @@ func _ready() -> void:
 	}
 	
 	initialize_countdown()
-	create_timer()
 
 
-func create_timer() -> void:
+func create_timer(wait) -> void:
+	print("creating timer " + str(wait))
 	timer = Timer.new()
 	add_child(timer)
 	timer.connect("timeout", self, "_on_Timer_timeout")
-	timer.set_wait_time(1.0)
+	timer.process_mode = 0
+	timer.set_wait_time(wait)
 	timer.set_one_shot(false)
 	timer.start()
+	print("timer started")
 
 
 func _on_Timer_timeout() -> void:
+	timer.set_wait_time(1)
 	update_countdown()
 
 
-func initialize_countdown() -> void:
-	var jam_date_unix = OS.get_unix_time_from_datetime(jam_end_date)
+func initialize_countdown() -> void:	
+	jam_date_unix = OS.get_unix_time_from_datetime(jam_end_date)
 	var current_time_unix = OS.get_unix_time_from_datetime(OS.get_datetime())
 	time_left_unix = jam_date_unix - current_time_unix
-	if time_left_unix > 0:
-		update_countdown_label_text()
+	if time_left_unix < 0:
+		countdown_label.text = ""
+		return
+	update_countdown_label_text()
+	var str_millis = str(OS.get_system_time_msecs())
+	var wait_time = int(str_millis.substr(str_millis.length()-3,str_millis.length()-1))/1000.0
+	if wait_time == 0: wait_time = 1
+	create_timer(wait_time)
 
 
 func update_countdown() -> void:
@@ -72,16 +82,27 @@ func update_countdown_label_text() -> void:
 	var time_left = get_datetime_from_unix(time_left_unix)
 	
 	# time units
-	var d_time_u = "d" if show_time_units else ""
-	var h_time_u = "h" if show_time_units else ""
-	var m_time_u = "m" if show_time_units else ""
-	var s_time_u = "s" if show_time_units else ""
+	var d_time_u = "d " if show_time_units else ""
+	var h_time_u = "h " if show_time_units else ""
+	var m_time_u = "m " if show_time_units else ""
+	var s_time_u = "s " if show_time_units else ""
 	
-	var str_days    = str(time_left.days)    + d_time_u+":" if time_left.days    > 0 or not show_time_units else ""
-	var str_hours   = str(time_left.hours)   + h_time_u+":" if time_left.hours   > 0 or not show_time_units  else ""
-	var str_minutes = str(time_left.minutes) + m_time_u+":" if time_left.minutes > 0 or not show_time_units  else ""
-	var str_seconds = str(time_left.seconds) + s_time_u     if time_left.seconds > 0 or not show_time_units  else ""
+	var str_days
+	var str_hours
+	var str_minutes
+	var str_seconds
 	
+	if show_time_units:
+		str_days    = str(time_left.days) + "d "    if time_left.days    > 0 else ""
+		str_hours   = str(time_left.hours) + "h "   if time_left.hours   > 0 else ""
+		str_minutes = str(time_left.minutes) + "m " if time_left.minutes > 0 else ""
+		str_seconds = str(time_left.seconds) + "s"  if time_left.minutes > 0 else ""
+	else:
+		str_days    = "%02d" % time_left.days    +":"
+		str_hours   = "%02d" % time_left.hours   +":"
+		str_minutes = "%02d" % time_left.minutes +":"
+		str_seconds = "%02d" % time_left.seconds
+		
 	countdown_label.text = str_days + str_hours + str_minutes + str_seconds
 
 
