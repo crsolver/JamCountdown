@@ -35,13 +35,19 @@ func _ready() -> void:
 	initialize_countdown()
 
 
-func create_timer(wait) -> void:
+func create_timer() -> void:
 	timer = Timer.new()
 	add_child(timer)
 	timer.connect("timeout", self, "_on_Timer_timeout")
 	timer.process_mode = 0
-	timer.set_wait_time(wait)
 	timer.set_one_shot(false)
+	
+	# Sync with system clock
+	var str_millis = str(OS.get_system_time_msecs())
+	var wait_time = (1000-int(str_millis.substr(str_millis.length()-3,str_millis.length()-1)))/1000.0
+	if wait_time == 0: wait_time = 1
+	
+	timer.set_wait_time(wait_time)
 	timer.start()
 
 
@@ -58,10 +64,7 @@ func initialize_countdown() -> void:
 		countdown_label.text = ""
 		return
 	update_countdown_label_text()
-	var str_millis = str(OS.get_system_time_msecs())
-	var wait_time = int(str_millis.substr(str_millis.length()-3,str_millis.length()-1))/1000.0
-	if wait_time == 0: wait_time = 1
-	create_timer(wait_time)
+	create_timer()
 
 
 func update_countdown() -> void:
