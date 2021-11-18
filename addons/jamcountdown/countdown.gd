@@ -97,7 +97,7 @@ func update_countdown_label_text() -> void:
 		str_days    = str(time_left.days) + "d "    if time_left.days    > 0 else ""
 		str_hours   = str(time_left.hours) + "h "   if time_left.hours   > 0 else ""
 		str_minutes = str(time_left.minutes) + "m " if time_left.minutes > 0 else ""
-		str_seconds = str(time_left.seconds) + "s"  if time_left.minutes > 0 else ""
+		str_seconds = str(time_left.seconds) + "s"  if time_left.seconds > 0 else ""
 	else:
 		str_days    = "%02d" % time_left.days    +":"
 		str_hours   = "%02d" % time_left.hours   +":"
