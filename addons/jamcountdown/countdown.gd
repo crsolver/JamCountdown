@@ -2,7 +2,7 @@ tool
 extends PanelContainer
 
 export var jam_title:= "GameJam"
-export var year:= 2021
+export var year:= 2022
 export var month:= 11
 export var day:= 14
 export var hour:= 16
