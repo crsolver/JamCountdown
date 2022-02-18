@@ -17,6 +17,10 @@ JamCountdown is an addon for Godot to keep track of the time left for a gamejam.
 
 ![Alt text](screenshots/image2.png?raw=true "Title")
 
+## Pomodoro timer
+Thanks to [QueenOfSquigglez](https://github.com/QueenOfSquiggles) JamCountdown can be used as a Pomodoro.
+Under Project > Tools select the number of minutes for the timer (5, 25, 45, 60, and 120 minutes).
+
 ## License
 
 MIT License.
