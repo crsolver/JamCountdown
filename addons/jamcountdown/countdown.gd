@@ -8,6 +8,7 @@ export var day:= 14
 export var hour:= 16
 export var minute:= 50
 export var show_time_units := true
+export var print_pomodoro_start_times := false
 
 onready var title_label = get_node("HBoxContainer/TitleLabel")
 onready var countdown_label = get_node("HBoxContainer/CountdownLabel")
@@ -17,12 +18,7 @@ var jam_date_unix
 var time_left_unix: int
 var timer: Timer
 
-
 func _ready() -> void:
-	title_label.text = jam_title
-	countdown_label.text = ""
-	countdown_label.visible = true
-	
 	jam_end_date = {
 		"year": year,
 		"month": month,
@@ -31,14 +27,24 @@ func _ready() -> void:
 		"minute": minute,
 		"second": 0
 	}
-	
-	initialize_countdown()
+	# accomplishes original desired function
+	start_countdown(jam_end_date)
 
+func start_countdown(end_date : Dictionary) -> void:
+	# moved ready func processes here to allow for starting from an arbitrary date set in code
+	jam_end_date = end_date
+	title_label.text = jam_title
+	countdown_label.text = ""
+	countdown_label.visible = true
+	initialize_countdown()
+	if print_pomodoro_start_times:
+		print("Countdown started for %s" % str(end_date))
 
 func create_timer() -> void:
-	timer = Timer.new()
-	add_child(timer)
-	timer.connect("timeout", self, "_on_Timer_timeout")
+	if not is_instance_valid(timer):
+		timer = Timer.new()
+		add_child(timer)
+		timer.connect("timeout", self, "_on_Timer_timeout")
 	timer.process_mode = 0
 	timer.set_one_shot(false)
 	
@@ -52,6 +58,8 @@ func create_timer() -> void:
 
 
 func _on_Timer_timeout() -> void:
+	if not is_instance_valid(timer):
+		return
 	timer.set_wait_time(1)
 	update_countdown()
 
@@ -80,6 +88,7 @@ func update_countdown() -> void:
 
 
 func update_countdown_label_text() -> void:
+	
 	var time_left = get_datetime_from_unix(time_left_unix)
 	
 	# time units
@@ -94,18 +103,17 @@ func update_countdown_label_text() -> void:
 	var str_seconds
 	
 	if show_time_units:
-		str_days    = str(time_left.days) + "d "    if time_left.days    > 0 else ""
-		str_hours   = str(time_left.hours) + "h "   if time_left.hours   > 0 else ""
-		str_minutes = str(time_left.minutes) + "m " if time_left.minutes > 0 else ""
-		str_seconds = str(time_left.seconds) + "s"  if time_left.seconds > 0 else ""
+		str_days    = str(time_left.day) + "d "    if time_left.day    > 0 else ""
+		str_hours   = str(time_left.hour) + "h "   if time_left.hour   > 0 else ""
+		str_minutes = str(time_left.minute) + "m " if time_left.minute > 0 else ""
+		str_seconds = str(time_left.second) + "s"  if time_left.second > 0 else ""
 	else:
-		str_days    = "%02d" % time_left.days    +":"
-		str_hours   = "%02d" % time_left.hours   +":"
-		str_minutes = "%02d" % time_left.minutes +":"
-		str_seconds = "%02d" % time_left.seconds
+		str_days    = "%02d" % time_left.day    +":"
+		str_hours   = "%02d" % time_left.hour   +":"
+		str_minutes = "%02d" % time_left.minute +":"
+		str_seconds = "%02d" % time_left.second
 		
 	countdown_label.text = str_days + str_hours + str_minutes + str_seconds
-
 
 func get_datetime_from_unix(unix) -> Dictionary:
 	var seconds = floor(unix%60)
@@ -114,9 +122,9 @@ func get_datetime_from_unix(unix) -> Dictionary:
 	var days    = floor(unix/86400)
 	
 	var time = {
-		"days": days,
-		"hours": hours,
-		"minutes": minutes,
-		"seconds": seconds
+		"day": days,
+		"hour": hours,
+		"minute": minutes,
+		"second": seconds
 	}
 	return time
