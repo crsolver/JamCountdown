@@ -103,10 +103,10 @@ func update_countdown_label_text() -> void:
 	var str_seconds
 	
 	if show_time_units:
-		str_days    = str(time_left.day) + "d "    if time_left.day    > 0 else ""
-		str_hours   = str(time_left.hour) + "h "   if time_left.hour   > 0 else ""
-		str_minutes = str(time_left.minute) + "m " if time_left.minute > 0 else ""
-		str_seconds = str(time_left.second) + "s"  if time_left.second > 0 else ""
+		str_days    = "%02d" % time_left.day + "d "    if time_left.day    > 0 else ""
+		str_hours   = "%02d" % time_left.hour + "h "   if time_left.hour   > 0 else ""
+		str_minutes = "%02d" % time_left.minute + "m "
+		str_seconds = "%02d" % time_left.second + "s"
 	else:
 		str_days    = "%02d" % time_left.day    +":"
 		str_hours   = "%02d" % time_left.hour   +":"
