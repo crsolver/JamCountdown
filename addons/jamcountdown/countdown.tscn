@@ -22,16 +22,12 @@ size_flags_horizontal = 5
 size_flags_vertical = 5
 theme = ExtResource( 4 )
 script = ExtResource( 1 )
-jam_title = "GameJam"
-month = 1
-day = 16
-hour = 16
-minute = 0
 
 [node name="HBoxContainer" type="HBoxContainer" parent="."]
 margin_left = 5.0
-margin_right = 193.0
-margin_bottom = 24.0
+margin_top = 1.0
+margin_right = 201.0
+margin_bottom = 23.0
 grow_horizontal = 0
 size_flags_horizontal = 5
 size_flags_vertical = 5
@@ -41,9 +37,8 @@ __meta__ = {
 }
 
 [node name="TitleLabel" type="Label" parent="HBoxContainer"]
-margin_left = 58.0
-margin_right = 126.0
-margin_bottom = 24.0
+margin_right = 68.0
+margin_bottom = 22.0
 size_flags_horizontal = 5
 size_flags_vertical = 5
 custom_colors/font_color = Color( 1, 1, 1, 1 )
@@ -54,14 +49,19 @@ __meta__ = {
 }
 
 [node name="CountdownLabel" type="Label" parent="HBoxContainer"]
-margin_left = 130.0
-margin_right = 130.0
-margin_bottom = 24.0
+margin_left = 72.0
+margin_right = 196.0
+margin_bottom = 22.0
 grow_horizontal = 0
 size_flags_horizontal = 5
 size_flags_vertical = 3
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 custom_fonts/font = SubResource( 4 )
+text = "07d 20h 59m 52s"
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="Timer" type="Timer" parent="."]
+
+[connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]
