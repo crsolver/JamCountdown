@@ -24,9 +24,10 @@ theme = SubResource("Theme_hj160")
 script = ExtResource("1_n7ugf")
 jam_title = "Gamejam"
 month = 1
-day = 8
-hour = 12
+day = 9
+hour = 14
 minute = 0
+show_time_units = false
 
 [node name="HBoxContainer" type="HBoxContainer" parent="."]
 layout_mode = 2
