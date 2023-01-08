@@ -38,7 +38,6 @@ func _exit_tree():
 	remove_tool_menu_item(POMO_120)
 
 func _tool_pomodoro(minutes : int) -> void:
-	
 	remove_control_from_container(container, countdown)
 	countdown.queue_free()
 	countdown = countdown_scene.instance()
