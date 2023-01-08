@@ -10,13 +10,13 @@ export var minute:= 10
 export var show_time_units := true
 export var print_pomodoro_start_times := false
 
-onready var title_label = get_node("HBoxContainer/TitleLabel")
-onready var countdown_label = get_node("HBoxContainer/CountdownLabel")
+onready var title_label: Label = $HBoxContainer/TitleLabel
+onready var countdown_label: Label = $HBoxContainer/CountdownLabel
+onready var timer: Timer = $Timer
 
 var jam_end_date: Dictionary
-var jam_date_unix
+var jam_date_unix: int
 var time_left_unix: int
-var timer: Timer
 
 func _ready() -> void:
 	jam_end_date = {
@@ -39,14 +39,7 @@ func start_countdown(end_date : Dictionary) -> void:
 	if print_pomodoro_start_times:
 		print("Countdown started for %s" % str(end_date))
 
-func create_timer() -> void:
-	if not is_instance_valid(timer):
-		timer = Timer.new()
-		add_child(timer)
-		timer.connect("timeout", self, "_on_Timer_timeout")
-	timer.process_mode = 0
-	timer.set_one_shot(false)
-	
+func sync_timer() -> void:
 	# Sync with system clock
 	var str_millis = str(OS.get_system_time_msecs())
 	var wait_time = (1000-int(str_millis.substr(str_millis.length()-3,str_millis.length()-1)))/1000.0
@@ -57,8 +50,6 @@ func create_timer() -> void:
 
 
 func _on_Timer_timeout() -> void:
-	if not is_instance_valid(timer):
-		return
 	timer.set_wait_time(1)
 	update_countdown()
 
@@ -71,7 +62,7 @@ func initialize_countdown() -> void:
 		countdown_label.text = ""
 		return
 	update_countdown_label_text()
-	create_timer()
+	sync_timer()
 
 
 func update_countdown() -> void:
@@ -80,14 +71,13 @@ func update_countdown() -> void:
 	
 	if time_left_unix <= 0:
 		countdown_label.visible = false
-		if timer: timer.queue_free()
+		timer.stop()
 		return
 	
 	update_countdown_label_text()
 
 
 func update_countdown_label_text() -> void:
-	
 	var time_left = get_datetime_from_unix(time_left_unix)
 	
 	var str_days
@@ -101,9 +91,9 @@ func update_countdown_label_text() -> void:
 		str_minutes = "%02d" % time_left.minute + "m "
 		str_seconds = "%02d" % time_left.second + "s"
 	else:
-		str_days    = "%02d" % time_left.day    +":"
-		str_hours   = "%02d" % time_left.hour   +":"
-		str_minutes = "%02d" % time_left.minute +":"
+		str_days    = "%02d" % time_left.day    + ":"
+		str_hours   = "%02d" % time_left.hour   + ":"
+		str_minutes = "%02d" % time_left.minute + ":"
 		str_seconds = "%02d" % time_left.second
 		
 	countdown_label.text = str_days + str_hours + str_minutes + str_seconds
