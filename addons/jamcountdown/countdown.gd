@@ -1,12 +1,12 @@
 tool
 extends PanelContainer
 
-export var jam_title:= "GameJam"
-export var year:= 2022
-export var month:= 11
-export var day:= 14
-export var hour:= 16
-export var minute:= 50
+export var jam_title:= "Title"
+export var year:= 2023
+export var month:= 10
+export var day:= 10
+export var hour:= 10
+export var minute:= 10
 export var show_time_units := true
 export var print_pomodoro_start_times := false
 
@@ -27,11 +27,10 @@ func _ready() -> void:
 		"minute": minute,
 		"second": 0
 	}
-	# accomplishes original desired function
+	
 	start_countdown(jam_end_date)
 
 func start_countdown(end_date : Dictionary) -> void:
-	# moved ready func processes here to allow for starting from an arbitrary date set in code
 	jam_end_date = end_date
 	title_label.text = jam_title
 	countdown_label.text = ""
@@ -90,12 +89,6 @@ func update_countdown() -> void:
 func update_countdown_label_text() -> void:
 	
 	var time_left = get_datetime_from_unix(time_left_unix)
-	
-	# time units
-	var d_time_u = "d " if show_time_units else ""
-	var h_time_u = "h " if show_time_units else ""
-	var m_time_u = "m " if show_time_units else ""
-	var s_time_u = "s " if show_time_units else ""
 	
 	var str_days
 	var str_hours

@@ -22,19 +22,16 @@ size_flags_horizontal = 5
 size_flags_vertical = 5
 theme = ExtResource( 4 )
 script = ExtResource( 1 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
-month = 2
-day = 17
-hour = 17
+jam_title = "GameJam"
+month = 1
+day = 16
+hour = 16
 minute = 0
 
 [node name="HBoxContainer" type="HBoxContainer" parent="."]
 margin_left = 5.0
-margin_top = 1.0
 margin_right = 193.0
-margin_bottom = 23.0
+margin_bottom = 24.0
 grow_horizontal = 0
 size_flags_horizontal = 5
 size_flags_vertical = 5
@@ -44,9 +41,9 @@ __meta__ = {
 }
 
 [node name="TitleLabel" type="Label" parent="HBoxContainer"]
-margin_left = 31.0
-margin_right = 99.0
-margin_bottom = 22.0
+margin_left = 58.0
+margin_right = 126.0
+margin_bottom = 24.0
 size_flags_horizontal = 5
 size_flags_vertical = 5
 custom_colors/font_color = Color( 1, 1, 1, 1 )
@@ -57,15 +54,14 @@ __meta__ = {
 }
 
 [node name="CountdownLabel" type="Label" parent="HBoxContainer"]
-margin_left = 103.0
-margin_right = 156.0
-margin_bottom = 22.0
+margin_left = 130.0
+margin_right = 130.0
+margin_bottom = 24.0
 grow_horizontal = 0
 size_flags_horizontal = 5
 size_flags_vertical = 3
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 custom_fonts/font = SubResource( 4 )
-text = "12m 4s"
 __meta__ = {
 "_edit_use_anchors_": false
 }
