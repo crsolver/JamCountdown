@@ -1,0 +1,40 @@
+[gd_scene load_steps=5 format=3 uid="uid://dsf3w561yokdc"]
+
+[ext_resource type="FontFile" uid="uid://igxjjp2pwfym" path="res://addons/jamcountdown/Roboto-Bold.ttf" id="1_grmgt"]
+[ext_resource type="Script" path="res://addons/jamcountdown/countdown.gd" id="1_n7ugf"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_62q5s"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+
+[sub_resource type="Theme" id="Theme_hj160"]
+default_font = ExtResource("1_grmgt")
+default_font_size = 14
+PanelContainer/styles/panel = SubResource("StyleBoxFlat_62q5s")
+
+[node name="JamCountdown" type="PanelContainer"]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -102.0
+offset_bottom = 22.0
+grow_horizontal = 0
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme = SubResource("Theme_hj160")
+script = ExtResource("1_n7ugf")
+jam_title = "Gamejam"
+month = 1
+day = 8
+hour = 12
+minute = 0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="TitleLabel" type="Label" parent="HBoxContainer"]
+layout_mode = 2
+text = "Title"
+
+[node name="CountdownLabel" type="Label" parent="HBoxContainer"]
+layout_mode = 2
+text = "10:00:00"

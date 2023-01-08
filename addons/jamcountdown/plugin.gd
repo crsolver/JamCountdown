@@ -1,7 +1,7 @@
-tool
+@tool
 extends EditorPlugin
 
-var countdown_scene = preload("res://addons/jamcountdown/countdown.tscn")
+var countdown_scene = preload("res://addons/jamcountdown/jam_countdown.tscn")
 var countdown
 var container = 0
 
@@ -15,18 +15,18 @@ var UNIX_TIME_CALC_CORRECTION := 0
 
 func _enter_tree():
 	# get offset from UTC for local time calculations:
-	var time_zone := OS.get_time_zone_info() # <--- this does have an edge case on windows machines during daylight savings time, not sure how to solve
+	var time_zone := Time.get_time_zone_from_system() # <--- this does have an edge case checked windows machines during daylight savings time, not sure how to solve
 	# time_zone:bias is how many minutes offset local time is from UTC, convert to seconds for unix epoch offset
 	UNIX_TIME_CALC_CORRECTION = time_zone["bias"] * 60
 	
-	countdown = countdown_scene.instance()
+	countdown = countdown_scene.instantiate()
 	countdown.name = "addon_countdown"
 	add_control_to_container(container, countdown)
-	add_tool_menu_item(POMO_5, self, "_tool_pomodoro", 5)
-	add_tool_menu_item(POMO_25, self, "_tool_pomodoro", 25)
-	add_tool_menu_item(POMO_45, self, "_tool_pomodoro", 45)
-	add_tool_menu_item(POMO_60, self, "_tool_pomodoro", 60)
-	add_tool_menu_item(POMO_120, self, "_tool_pomodoro", 120)
+	add_tool_menu_item(POMO_5, func():_tool_pomodoro(5))
+	add_tool_menu_item(POMO_25, func():_tool_pomodoro(25))
+	add_tool_menu_item(POMO_45, func():_tool_pomodoro(45))
+	add_tool_menu_item(POMO_60, func():_tool_pomodoro(60))
+	add_tool_menu_item(POMO_120, func():_tool_pomodoro(120))
 
 func _exit_tree():
 	remove_control_from_container(container, countdown)
@@ -41,8 +41,17 @@ func _tool_pomodoro(minutes : int) -> void:
 	
 	remove_control_from_container(container, countdown)
 	countdown.queue_free()
-	countdown = countdown_scene.instance()
+	countdown = countdown_scene.instantiate()
 	add_control_to_container(container, countdown)
 	var offset :int = UNIX_TIME_CALC_CORRECTION + (minutes*60)
-	var time := OS.get_datetime_from_unix_time(OS.get_unix_time() + offset)
+	var time = Time.get_datetime_dict_from_unix_time(Time.get_unix_time_from_system() + offset)
 	countdown.start_countdown(time)
+
+
+
+
+
+
+
+
+

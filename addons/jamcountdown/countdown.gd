@@ -1,17 +1,17 @@
-tool
+@tool
 extends PanelContainer
 
-export var jam_title:= "Title"
-export var year:= 2023
-export var month:= 10
-export var day:= 10
-export var hour:= 10
-export var minute:= 10
-export var show_time_units := true
-export var print_pomodoro_start_times := false
+@export var jam_title:= "Title"
+@export var year:= 2023
+@export var month:= 10
+@export var day:= 10
+@export var hour:= 10
+@export var minute:= 10
+@export var show_time_units := true
+@export var print_pomodoro_start_times := false
 
-onready var title_label = get_node("HBoxContainer/TitleLabel")
-onready var countdown_label = get_node("HBoxContainer/CountdownLabel")
+@onready var title_label = get_node("HBoxContainer/TitleLabel")
+@onready var countdown_label = get_node("HBoxContainer/CountdownLabel")
 
 var jam_end_date: Dictionary
 var jam_date_unix
@@ -43,12 +43,13 @@ func create_timer() -> void:
 	if not is_instance_valid(timer):
 		timer = Timer.new()
 		add_child(timer)
-		timer.connect("timeout", self, "_on_Timer_timeout")
+		timer.connect("timeout",Callable(self,"_on_Timer_timeout"))
 	timer.process_mode = 0
 	timer.set_one_shot(false)
 	
 	# Sync with system clock
-	var str_millis = str(OS.get_system_time_msecs())
+	var system_time_ms = Time.get_unix_time_from_system() * 1000
+	var str_millis = str(system_time_ms)
 	var wait_time = (1000-int(str_millis.substr(str_millis.length()-3,str_millis.length()-1)))/1000.0
 	if wait_time == 0: wait_time = 1
 	
@@ -63,9 +64,10 @@ func _on_Timer_timeout() -> void:
 	update_countdown()
 
 
-func initialize_countdown() -> void:	
-	jam_date_unix = OS.get_unix_time_from_datetime(jam_end_date)
-	var current_time_unix = OS.get_unix_time_from_datetime(OS.get_datetime())
+func initialize_countdown() -> void:
+	jam_date_unix = Time.get_unix_time_from_datetime_dict(jam_end_date)
+	var current_time_unix = Time.get_unix_time_from_datetime_dict(Time.get_datetime_dict_from_system())
+	
 	time_left_unix = jam_date_unix - current_time_unix
 	if time_left_unix < 0:
 		countdown_label.text = ""
@@ -75,7 +77,7 @@ func initialize_countdown() -> void:
 
 
 func update_countdown() -> void:
-	var current_time_unix = OS.get_unix_time_from_datetime(OS.get_datetime())
+	var current_time_unix = Time.get_unix_time_from_datetime_dict(Time.get_datetime_dict_from_system())
 	time_left_unix = jam_date_unix - current_time_unix
 	
 	if time_left_unix <= 0:

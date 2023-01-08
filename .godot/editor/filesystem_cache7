@@ -1,0 +1,16 @@
+0b7126e0c6e86d3ec295a72f5aa6e0bd
+::res://::1673198094
+default_env.tres::Environment::-1::1673197930::0::1::::<><>::
+icon.png::CompressedTexture2D::691207362878648770::1673196250::1673197938::1::::<><>::
+README.md::TextFile::-1::1673196250::0::1::::<><>::
+::res://addons/::1673196250
+::res://addons/jamcountdown/::1673198064
+countdown.gd::GDScript::-1::1673197930::0::1::::<>PanelContainer<>::
+plugin.cfg::TextFile::-1::1673196864::0::1::::<><>::
+plugin.gd::GDScript::-1::1673197930::0::1::::<>EditorPlugin<>::
+Roboto-Bold.ttf::FontFile::575310075737280784::1673196250::1673198094::1::::<><>::
+Roboto-Light.ttf::FontFile::8947264792905221433::1673196250::1673198094::1::::<><>::
+::res://screenshots/::1673197938
+image1.png::CompressedTexture2D::3055748389605039098::1673196250::1673197938::1::::<><>::
+image2.png::CompressedTexture2D::256949300495731808::1673196250::1673197938::1::::<><>::
+image3.png::CompressedTexture2D::1302985705956590105::1673196250::1673197938::1::::<><>::
