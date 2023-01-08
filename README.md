@@ -4,6 +4,8 @@ JamCountdown is an addon for Godot to keep track of the time left for a gamejam.
 
 ![Alt text](screenshots/image3.png?raw=true "Title")
 
+This branch is for Godot4. For Godot3 see the godot3 branch.
+
 ## Installation
 
 1. Copy the "addons" folder to your project.
